@@ -1,0 +1,14 @@
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+<script type="text/x-mathjax-config"> 
+    MathJax.Hub.Config({ 
+         jax: ["input/TeX", "output/HTML-CSS"],
+         tex2jax: {inlineMath: [['[latex]','[/latex]'], ['\\(','\\)']]},
+        "HTML-CSS": { availableFonts: ["TeX"], preferredFont: "Tex", scale: 108 },
+        processEscapes: true
+    }); 
+</script>
+<script>
+    $(document).ajaxComplete(function(){
+         MathJax.Hub.Queue(["Typeset",MathJax.Hub]);
+});
+</script>

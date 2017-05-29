@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+
+    <%
+    var title = page.title || '';
+
+    if (is_archive()) {
+      title = __('archive_title');
+      if (is_month()) {
+        title += ': ' + page.year + '/' + page.month;
+      } else if (is_year()) {
+        title += ': ' + page.year;
+      }
+    } else if (is_category()) {
+      title = __('category_title') + ': ' + page.category;
+    } else if (is_tag()) {
+      title = __('tag_title') + ': ' + page.tag;
+    }
+
+    description = '';
+    if (is_home()) {
+      title = config.title;
+      if (page.current && page.current > 1) {
+        title = 'page ' + page.current + ' | ' + config.title;
+      }
+    } else if (page.current && page.current > 1) {
+      title = 'page ' + page.current + ' | ' + title + ' | ' + config.title;
+    } else if ( is_tag() ) {
+      title = '标签：' + page.tag + ' | ' + config.title;
+    } else {
+      title = title + ' | ' + config.title;
+    }
+    %>
+
+    <title>
+      <%= title %> 
+    </title>
+
+    <% if (config.author){ %>
+      <meta name="author" content="<%= config.author %>">
+    <% } %>
+
+    <% if ( is_home() && config.description){ %>
+      <meta name="description" content="<%= config.description %>">
+    <% } %>
+
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <link rel="shortcut icon" href="<%- config.root %>assets/image/favicon.ico">
+    <!--[if lt IE 9]>
+      <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link href="<%- config.root %>assets/style/screen.css" rel="stylesheet" type="text/css" media="all">
+  </head>
+
+  <body>
+    <img class='bg-image' src="<%- config.root %>assets/image/bg.jpg" />
+    <header id="header" class="clearfix header-fixed-top">
+      <div class="nav">
+        <h1><a href="/"><%- config.title %></a></h1>
+        <ul>
+        
+          <% for (var i in theme.menu){ %>
+            <li><a href="<%- config.root %><%- theme.menu[i] %>"><%= i %></a></li>
+          <% } %>
+
+        </ul>
+      </div>
+    </header>
+
+    <%- body %>
+
+    <script>
+      (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+      (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+      m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+      })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+      ga('create', 'UA-96195540-1', 'auto');
+      ga('send', 'pageview');
+    </script>
+  </body>
+</html>

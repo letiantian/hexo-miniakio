@@ -1,0 +1,32 @@
+<div id="home-container">
+  <div class="curtain">
+    
+    <% if ( is_home() ) { %>
+      <% if (page.current && page.current == 1) {  %>
+        <h2>最新文章</h2>
+      <% } else { %>
+        <h2>文章列表</h2>
+      <% } %>  
+    <% } %>
+
+    <% if ( is_tag() ) { %>
+    <h2>标签: <%- page.tag %></h2>
+    <% } %>
+
+    <ul class="home-list">
+      <% page.posts.each(function(post, i){ %>
+          <li>
+            <% if (is_home()) { %>
+              <span><%= date(post.date, 'YYYY-MM-DD') %></span> &raquo; 
+            <% } else { %>
+              <span><%= date(post.date, 'YYYY-MM-DD') %></span> &raquo; 
+            <% } %>
+            <a href="<%- config.root %><%- post.path %>" title="<%= post.title %>"><%= post.title %></a>
+          </li>
+      <% }); %>
+
+      <%- partial('_partial/pagination') %>
+    </ul>
+
+  </div>
+</div>

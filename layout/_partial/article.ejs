@@ -1,0 +1,103 @@
+<%
+var post = page;
+%>
+
+<div id="container">
+    <div id="main" class="clearfix">
+        <div class="content clearfix">
+            <article>
+                <h2 class="title">
+                    <a href="<%- config.root %><%- post.path %>"><%= post.title %></a>
+                </h2>
+                <div class="tag-list">
+                    <% if (type == 'post') { %>
+                        <%- date(post.date, config.date_format) %>
+
+                        <% if (post.tags && post.tags.length > 0){ %>
+                            &nbsp;|&nbsp;Tags:
+                            <%- list_tags(post.tags, {
+                                show_count: false,
+                                style: 'none',
+                                class: ''
+                            }) %>
+                        <% } %>
+                    <% } %>
+                </div>
+                <div class="article-content">
+                    <% if (type == 'tags') { %>
+                        <% if (site.tags.length){ %>
+                            <div class="tag-cloud">
+                                <%- tagcloud({
+                                    min_font: 18,
+                                    max_font: 24,
+                                    amount: 999,
+                                    color: true,
+                                    start_color: 'blue',
+                                    end_color: 'red',
+                                }) %>
+                            </div>
+                        <% } %>
+                    <% } else { %>
+                        <%- post.content %>
+                    <% } %>
+                </div>
+            </article>
+            <p>（完）</p>
+            <hr/>
+            <%- partial('comment', {duoshuo_thread_key: config.duoshuo_shortname+'-'+post.path, duoshuo_url: config.url+config.root+post.path, duoshuo_title: post.title}) %>
+        </div>
+
+    </div>
+
+    <footer id="footer" class="top-box clearfix">
+        <span>
+            &copy; <%- config.title %> 2015  | The theme is based on<a href="https://github.com/SerhoLiu/serholiu.com" target="_blank"> MiniAkio</a>.
+        </span>
+        <a href="javascript:scroll(0,0)" class="to-top">TOP</a>
+    </footer>
+</div>
+
+
+<% if ( type == 'post' || type == 'page' ) { %>
+  <%- partial('_partial/jquery') %>
+  <%- partial('_partial/mathjax') %>
+  <%- partial('_partial/github-repo-show-widget') %>
+
+  <!-- highlight -->
+  <script src="<%- config.root %>assets/js/highlight/highlight.min.js"></script>
+  <link rel="stylesheet" href="<%- config.root %>assets/js/highlight/styles/github.css">
+
+  <!--awesome-toc -->
+  <script src="<%- config.root %>assets/js/awesome-toc.js"></script>
+  <script>
+    // 高亮
+    hljs.initHighlightingOnLoad();
+    
+    // 在图片下方显示alt的内容
+    $("#container img").each(function(i, ele) {
+      var alt = this.alt;
+      $(this).after("<em>"+alt+"</em>");
+    });
+    
+    // toc
+    $(document).ready(function(){
+        $.awesome_toc({        
+          autoDetectHeadings: true,
+          enableToTopButton: true,
+          contentClass: "article-content",
+          css: {
+              fontSize: "99%",
+              largeFontSize: "120%",
+              fontColor: '#000',  
+              activeFontColor: "#5882FA", 
+              lineHeight: "1.8",
+              backgroundColor: "white",
+          },
+        });
+    });
+  </script>
+
+  <!--多说和disqus评论-->
+  <script src="<%- config.root %>assets/js/comment.js"></script>
+
+<% } %>
